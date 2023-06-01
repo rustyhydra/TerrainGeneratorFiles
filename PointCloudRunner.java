@@ -10,32 +10,12 @@ import java.util.ArrayList;//used for the array list of triangles during STL fil
 import java.nio.ByteBuffer;//used for the byte array conversion for converting to a STL file.
 
 public class PointCloudRunner {
+   public static final MAX_SEED = 99999999;
+   public static final MIN_SEED = 10000000;
    public static void main(String[] args) {
       ArrayList<Triangle> triangles = new ArrayList<Triangle>();
       
-      int seed =(int) (Math.random() * 99999999) + 1;
-      
-      if (seed < 10) {
-         seed *= 10000000;
-      }
-      else if (seed < 100) {
-         seed *= 1000000;
-      }
-      else if (seed < 1000) {
-         seed *= 100000;
-      }
-      else if (seed < 10000) {
-         seed *= 10000;
-      }
-      else if (seed < 100000) {
-         seed *= 1000;
-      }
-      else if (seed < 1000000) {
-         seed *= 100;
-      }
-      else if (seed < 10000000) {
-         seed *= 10;
-      }//tacks zeros onto the end of the seed so it's always 8 digits.
+      int seed = (int) (Math.random() * (MAX_SEED-MIN_SEED)) + MIN_SEED;
       
       PointCloud cloud = new PointCloud(7, 300, String.valueOf(seed));
       //cloud.print();//outputs the pointcloud
@@ -96,6 +76,7 @@ public class PointCloudRunner {
       dist /= 720;
       CordinatePoint bottom = new CordinatePoint (0, 0, -dist, dist);
        
+      
       for (int degree = 0; degree < 720; degree++) {
          for (int ring = 0; ring < 720; ring++) {
          
