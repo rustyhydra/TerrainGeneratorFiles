@@ -10,8 +10,8 @@ import java.util.ArrayList;//used for the array list of triangles during STL fil
 import java.nio.ByteBuffer;//used for the byte array conversion for converting to a STL file.
 
 public class PointCloudRunner {
-   public static final MAX_SEED = 99999999;
-   public static final MIN_SEED = 10000000;
+   public static final int  MAX_SEED = 99999999;
+   public static final int MIN_SEED = 10000000;
    public static void main(String[] args) {
       ArrayList<Triangle> triangles = new ArrayList<Triangle>();
       
