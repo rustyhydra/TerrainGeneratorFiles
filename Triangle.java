@@ -16,24 +16,27 @@ public class Triangle {
       this.c = c;
       n = new NormalVector(a, b, c);
    }
+
    public Triangle() {
       CordinatePoint blank = new CordinatePoint(0,0,0,0);
       a = blank;
       b = blank;
       c = blank;
       n = new NormalVector(a, b, c);
-      
    }
    
    public CordinatePoint getA() {
       return a;
    }
+
    public CordinatePoint getB() {
       return b;
    }
+   
    public CordinatePoint getC() {
       return c;
    }
+
    public NormalVector getNormal() {
       return n;
    }
@@ -42,15 +45,25 @@ public class Triangle {
       a = newA;
       n = new NormalVector(a, b, c);
    }
+   
    public void newB(CordinatePoint newB) {
       b = newB;
       n = new NormalVector(a, b, c);
    }
+
    public void newC(CordinatePoint newC) {
       c = newC;
       n = new NormalVector(a, b, c);
    }
+
+   public void round(int places) {
+      a.round(places);
+      b.round(places);
+      c.round(places);
+   }
+
    public void print() {
+      //TODO: make this into a toString method
       System.out.print("a:  ");
       System.out.print(a.toString());
       System.out.print("   b:  ");
