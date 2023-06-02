@@ -10,58 +10,65 @@ import java.util.ArrayList;//used for the array list of triangles during STL fil
 import java.nio.ByteBuffer;//used for the byte array conversion for converting to a STL file.
 
 public class PointCloudRunner {
-   public static final int  MAX_SEED = 99999999;
+   public static final int MAX_SEED = 99999999;
    public static final int MIN_SEED = 10000000;
+   public static final int NUM_CRATERS = 300;
+   public static final int AMPLIFICATION = 7;
+   public static final String FILEPATH = "planet_generator_output.stl";
    public static void main(String[] args) {
-      ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-      
       int seed = (int) (Math.random() * (MAX_SEED-MIN_SEED)) + MIN_SEED;
-      
-      PointCloud cloud = new PointCloud(7, 300, String.valueOf(seed));
-      //cloud.print();//outputs the pointcloud
-      pointCloudToTriangleArray(cloud, triangles);
-      /*for(int i = 0; i < triangles.size(); i++) {
-         triangles.get(i).print();
-         System.out.println();
-      }*/// outputs the triangle arraylist.
-      // Create a new STL file
-        File stlFile = new File("plantet_generator_output.stl");
-
-        // Create a new FileWriter object to write data to the STL file
-        try {
-            FileWriter writer = new FileWriter(stlFile);
-
-            // Write data to the STL file
-            // Define the start of the solid object
-            writer.write("solid planet_generator_output\n");
-            
-            for (Triangle triangle : triangles) {
-               // Write the normal vector
-               writer.write("facet normal " + triangle.getNormal().getNormalX() + " " + triangle.getNormal().getNormalY() + " " + triangle.getNormal().getNormalZ() + "\n");
-
-               // Write the triangle vertices
-               writer.write("outer loop\n");
-               writer.write("vertex " + triangle.getA().getX() + " " + triangle.getA().getY() + " " + triangle.getA().getZ() + "\n");
-               writer.write("vertex " + triangle.getB().getX() + " " + triangle.getB().getY() + " " + triangle.getB().getZ() + "\n");
-               writer.write("vertex " + triangle.getC().getX() + " " + triangle.getC().getY() + " " + triangle.getC().getZ() + "\n");
-               writer.write("endloop\n");
-
-               // Write the end of the triangle definition
-               writer.write("endfacet\n");
-            }
-            
-            writer.write("endsolid planet_generator_output\n");
-
-            // Close the FileWriter object
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        /*Triangle tra = new Triangle(cloud.get(1,2),cloud.get(2,2),cloud.get(1,3));
-        tra.print();*///test code for the triangle class
+      PointCloud cloud = new PointCloud(AMPLIFICATION, NUM_CRATERS, String.valueOf(seed));
+      ArrayList<Triangle> triangles = pointCloudToTriangleArray(cloud);
+      output(triangles, FILEPATH, 3);
    }
+
+   public static void output(ArrayList<Triangle> triangles, String fp, int decimalPrecision) {
+      for (Triangle t : triangles) {
+         t.round(decimalPrecision);
+      }
+
+      //TODO: Create binary output file method
+      // Create a new STL file
+      File stlFile = new File(FILEPATH);
+
+      // Create a new FileWriter object to write data to the STL file
+      try {
+          FileWriter writer = new FileWriter(stlFile);
+
+          // Write data to the STL file
+          // Define the start of the solid object
+          writer.write("solid planet_generator_output\n");
+          
+          for (Triangle triangle : triangles) {
+             // Write the normal vector
+             writer.write("facet normal " + triangle.getNormal().getNormalX() + " " + triangle.getNormal().getNormalY() + " " + triangle.getNormal().getNormalZ() + "\n");
+
+             // Write the triangle vertices
+             writer.write("outer loop\n");
+             writer.write("vertex " + triangle.getA().getX() + " " + triangle.getA().getY() + " " + triangle.getA().getZ() + "\n");
+             writer.write("vertex " + triangle.getB().getX() + " " + triangle.getB().getY() + " " + triangle.getB().getZ() + "\n");
+             writer.write("vertex " + triangle.getC().getX() + " " + triangle.getC().getY() + " " + triangle.getC().getZ() + "\n");
+             writer.write("endloop\n");
+
+             // Write the end of the triangle definition
+             writer.write("endfacet\n");
+          }
+          
+          writer.write("endsolid planet_generator_output\n");
+
+          // Close the FileWriter object
+          writer.close();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+      /*Triangle tra = new Triangle(cloud.get(1,2),cloud.get(2,2),cloud.get(1,3));
+      tra.print();*///test code for the triangle class
+   }
+
    
-   public static void pointCloudToTriangleArray(PointCloud cloud, ArrayList<Triangle> triangles) {
+   public static ArrayList<Triangle> pointCloudToTriangleArray(PointCloud cloud) {
+      ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+      //TODO: Make constants and clarify this code
       double dist = 0;
       for (int degree = 0; degree < 720; degree++) {
          dist += cloud.get(0/*719*/, degree).getDist();
@@ -76,7 +83,7 @@ public class PointCloudRunner {
       dist /= 720;
       CordinatePoint bottom = new CordinatePoint (0, 0, -dist, dist);
        
-      
+      //TODO: Clean up this code
       for (int degree = 0; degree < 720; degree++) {
          for (int ring = 0; ring < 720; ring++) {
          
@@ -114,5 +121,6 @@ public class PointCloudRunner {
                further debug.*/
          }
       }
+      return triangles;
    }
 }

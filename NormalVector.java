@@ -7,6 +7,7 @@ might do vector calculations in the constructor
 */
 
 public class NormalVector {
+   
    private double normalX;
    private double normalY;
    private double normalZ;

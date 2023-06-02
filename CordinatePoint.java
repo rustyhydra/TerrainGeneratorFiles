@@ -12,6 +12,8 @@ public class CordinatePoint {
    private double y;
    private double z;
    private double dist;
+
+   //TODO: remove attributes, could be unnecessary
    private ArrayList<String> atributes;
    
    public CordinatePoint(double x, double y, double z, double dist) {
@@ -58,6 +60,13 @@ public class CordinatePoint {
       atributes.add(atribute);
    }
    
+   public void round(int places) {
+      x = Math.round(x * Math.pow(10, places)) / Math.pow(10, places);
+      y = Math.round(y * Math.pow(10, places)) / Math.pow(10, places);
+      z = Math.round(z * Math.pow(10, places)) / Math.pow(10, places);
+      dist = Math.round(dist * Math.pow(10, places)) / Math.pow(10, places);
+   }
+
    public boolean hasAtribute(String atribute) {
       for (int i = 0; i < atributes.size(); i++) {
          if (atributes.get(i).indexOf(atribute) != -1) {
@@ -115,6 +124,6 @@ public class CordinatePoint {
       
       finalDist = Math.sqrt(xDist + yDist + zDist);
       
-      return finalDist;//Math.sqrt((Math.sqrt(((x - navPoint.getX()) * (x - navPoint.getX())) + ((y - navPoint.getY()) * (y - navPoint.getY()))) *  Math.sqrt(((x - navPoint.getX()) * (x - navPoint.getX())) + ((y - navPoint.getY()) * (y - navPoint.getY()))))+ ((z - navPoint.getZ()) * (z - navPoint.getZ())));
+      return finalDist;
    }
 }

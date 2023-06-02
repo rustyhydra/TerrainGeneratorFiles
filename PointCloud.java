@@ -24,6 +24,8 @@ public class PointCloud {
                                                          /*the 1st and 2nd numbers are used for general purpose randomization
                                                          the 3rd through 8th numbers are for determining positions of features
                                                          with the 3rd through 5th for ring and the 6th through 8th for degree*/   
+
+      //TODO: remove, seed length irrelevant
       if (seed.length() < 8) {
         throw new IllegalArgumentException(" seed length incorect");
       }
@@ -31,6 +33,8 @@ public class PointCloud {
       cratersStarted = false;
       Random rand = new Random(Integer.parseInt(seed));
       
+      //TODO: Make constants for 720 and -0.03 and 6 and stuff
+
       pointCloud = new CordinatePoint[720][720]; //first value is the degree around the center of the planet, second value is the ring.
       double distance;
       for (int i = 0; i < pointCloud.length; i++) {
@@ -148,7 +152,7 @@ public class PointCloud {
       pointCloud[degree][ring].newZ(z);
    }
    
-   public void addCrater(int ring, int degree, double radius, double amplification,  String seed) {    
+   public void addCrater(int ring, int degree, double radius, double amplification, String seed) {    
       Random rand = new Random(Integer.parseInt(seed));
       for(int i = 0; i < pointCloud.length; i++) {
          for (int i2 = 0; i2 < pointCloud[i].length; i2++) {
